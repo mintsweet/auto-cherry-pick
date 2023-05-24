@@ -1,0 +1,31 @@
+name: "Auto Cherry Pick"
+author: "mintsweet<0x1304570@gmail.com>"
+description: "cherry pick commits from Pull Requests into Release branch"
+branding:
+  icon: "git-pull-request"
+  color: "green"
+inputs:
+  author_email:
+    description: "The author email address"
+    default: ${{ github.actor }}@users.noreply.github.com
+    required: false
+  author_name:
+    description: "The author name"
+    default: ${{ github.actor }}
+    required: false
+runs:
+  using: "composite"
+  steps:
+    - run: chmod +x $GITHUB_ACTION_PATH/cherry-pick.sh
+      shell: bash
+    - run: $GITHUB_ACTION_PATH/cherry-pick.sh
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        PR_TITLE: ${{ github.event.pull_request.title }}
+        PR_BODY: ${{ github.event.pull_request.body }}
+        LABEL_NAME: ${{ github.event.label.name }}
+        AUTHOR_EMAIL: ${{ inputs.author_email }}
+        AUTHOR_NAME: ${{ inputs.author_name }}
+        ASSIGNEES: ${{ inputs.assignees }}
