@@ -26,9 +26,8 @@ git config --global user.name "$AUTHOR_NAME"
 
 git remote update
 git fetch --all
-git restore .
 git checkout -b $PR_BRANCH origin/$TARGET_BRANCH
-git cherry-pick -m 1 --strategy=recursive --strategy-option=theirs $GITHUB_SHA || (
+git cherry-pick $GITHUB_SHA || (
 	gh pr comment $PR_NUMBER --body "🤖 The current file has a conflict, and the pr cannot be automatically created."
 	gh pr edit $PR_NUMBER --add-label $AUTO_CHERRY_PICK_FAILED_LABEL || (
 		gh label create $AUTO_CHERRY_PICK_FAILED_LABEL -c "#D93F0B" -d "auto cherry pick failed"
