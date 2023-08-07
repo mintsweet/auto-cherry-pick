@@ -9,18 +9,18 @@ AUTO_CHERRY_PICK_VERSION_LABEL="bot/auto-cherry-pick-for-$TARGET_BRANCH"
 AUTO_CHERRY_PICK_FAILED_LABEL="bot/auto-cherry-pick-failed"
 AUTO_CHERRY_PICK_COMPLETED_LABEL="bot/auto-cherry-pick-completed"
 
-echo "==================== Basic Info ===================="
+echo "::group::Basic Info"
 echo "PR Number: $PR_NUMBER"
 echo "PR Title: $PR_TITLE"
-echo "PR Body: $PR_BODY"
 echo "Label: $LABEL_NAME"
 echo "GitHub SHA: $GITHUB_SHA"
 echo "Author Email: $AUTHOR_EMAIL"
 echo "Author Name: $AUTHOR_NAME"
 echo "Target Branch: $TARGET_BRANCH"
 echo "PR Branch: $PR_BRANCH"
+echo "::endgroup::"
 
-echo "==================== Git Cherry Pick ===================="
+echo "::group::Git Cherry Pick"
 git config --global user.email "$AUTHOR_EMAIL"
 git config --global user.name "$AUTHOR_NAME"
 
@@ -36,8 +36,9 @@ git cherry-pick $GITHUB_SHA || (
 	exit 1
 )
 git push origin $PR_BRANCH
+echo "::endgroup::"
 
-echo "==================== GitHub Auto Create PR ===================="
+echo "::group::GitHub Auto Create PR"
 AUTO_CREATED_PR_LINK=$(gh pr create \
 	-B $TARGET_BRANCH \
 	-H $PR_BRANCH \
@@ -56,3 +57,4 @@ gh pr edit $AUTO_CREATED_PR_LINK --add-label "$AUTO_CHERRY_PICK_LABEL,$AUTO_CHER
 	gh label create $AUTO_CHERRY_PICK_VERSION_LABEL -c "#5319E7" -d "auto cherry pick pr for $TARGET_BRANCH"
 	gh pr edit $AUTO_CREATED_PR_LINK --add-label "$AUTO_CHERRY_PICK_LABEL,$AUTO_CHERRY_PICK_VERSION_LABEL"
 )
+echo "::endgroup::"
