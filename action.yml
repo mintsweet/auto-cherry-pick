@@ -13,6 +13,10 @@ inputs:
     description: "The author name"
     default: ${{ github.actor }}
     required: false
+  assignees:
+    description: "A comma or newline separated list of assignees (GitHub usernames)."
+    default: ${{ github.actor }}
+    required: false
 runs:
   using: "composite"
   steps:
@@ -24,7 +28,6 @@ runs:
         GH_TOKEN: ${{ github.token }}
         PR_NUMBER: ${{ github.event.pull_request.number }}
         PR_TITLE: ${{ github.event.pull_request.title }}
-        PR_BODY: ${{ github.event.pull_request.body }}
         LABEL_NAME: ${{ github.event.label.name }}
         AUTHOR_EMAIL: ${{ inputs.author_email }}
         AUTHOR_NAME: ${{ inputs.author_name }}
