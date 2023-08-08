@@ -26,7 +26,7 @@ on:
 
 jobs:
   cherry-pick:
-    if: github.event.pull_request.merged == true && startsWith(github.event.label.name, 'needs-cherry-pick-')
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
       contents: write
