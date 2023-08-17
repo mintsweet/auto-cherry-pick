@@ -25,18 +25,17 @@ on:
       - closed
 
 jobs:
-  cherry-pick:
+  auto-cherry-pick:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Auto Cherry Pick
         uses: mintsweet/auto-cherry-pick@v1.0.0
 ```
 
-## LICENSE
+## License
 
 [MIT](./LICENSE)
