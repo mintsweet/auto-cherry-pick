@@ -9,16 +9,16 @@ echo "Origin PR Number: $ORIGIN_PR_NUMBER"
 echo "Origin PR Title: $ORIGIN_PR_TITLE"
 echo "Origin PR Labels: $ORIGIN_PR_LABELS"
 echo "GitHub SHA: $GITHUB_SHA"
+echo "Trigger Label Prefix: $TRIGER_LABEL_PREFIX"
 echo "Author Email: $AUTHOR_EMAIL"
 echo "Author Name: $AUTHOR_NAME"
 echo "Assignees: $ASSIGNEES"
 echo "::endgroup::"
 
-TARGET_LABEL_PREFIX="needs-cherry-pick-"
 TARGET_LABEL=""
 
 for label in "${ORIGIN_PR_LABELS[@]}"; do
-	if [[ "$label" == "$TARGET_LABEL_PREFIX"* ]]; then
+	if [[ "$label" == "$TRIGER_LABEL_PREFIX"* ]]; then
 		TARGET_LABEL="$label"
 		break
 	fi
