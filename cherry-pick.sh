@@ -76,6 +76,7 @@ gh pr edit $ORIGIN_PR_NUMBER --add-label $AUTO_CHERRY_PICK_COMPLETED_LABEL || (
 
 gh pr comment $AUTO_CREATED_PR_LINK --body "🤖 this a auto create pr!cherry picked from #$ORIGIN_PR_NUMBER."
 gh pr edit $AUTO_CREATED_PR_LINK --add-label "$AUTO_CHERRY_PICK_LABEL,$AUTO_CHERRY_PICK_VERSION_LABEL" || (
+	gh label create $AUTO_CHERRY_PICK_LABEL -c "#0E8A16" -d "auto cherry pick pr"
 	gh label create $AUTO_CHERRY_PICK_VERSION_LABEL -c "#5319E7" -d "auto cherry pick pr for $TARGET_BRANCH"
 	gh pr edit $AUTO_CREATED_PR_LINK --add-label "$AUTO_CHERRY_PICK_LABEL,$AUTO_CHERRY_PICK_VERSION_LABEL"
 )
