@@ -15,4 +15,4 @@ jobs:
         with:
           fetch-depth: 0
       - name: Auto Cherry Pick
-        uses: ../../auto-cherry-pick
+        uses: ./
