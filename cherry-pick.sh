@@ -2,7 +2,7 @@
 
 set -e
 
-ORIGIN_PR_LABELS=($(echo "$ORIGIN_PR_LABELS_JSON" | jq -r '.[]'))
+ORIGIN_PR_LABELS=$(echo "$ORIGIN_PR_LABELS_JSON" | jq -r '.[]')
 
 echo "::group::Origin Info"
 echo "Origin PR Number: $ORIGIN_PR_NUMBER"
@@ -19,7 +19,7 @@ AUTO_CHERRY_PICK_LABEL="bot/auto-cherry-pick"
 AUTO_CHERRY_PICK_FAILED_LABEL="bot/auto-cherry-pick-failed"
 AUTO_CHERRY_PICK_COMPLETED_LABEL="bot/auto-cherry-pick-completed"
 
-for label in "${ORIGIN_PR_LABELS[@]}"; do
+for label in ${ORIGIN_PR_LABELS[@]}; do
 	if [[ "$label" == "$TRIGER_LABEL_PREFIX"* ]]; then
 		TARGET_BRANCH="release-${label##*-}"
 		AUTO_CREATE_PR_BRANCH="$TARGET_BRANCH-auto-cherry-pick-$ORIGIN_PR_NUMBER"
@@ -54,7 +54,7 @@ for label in "${ORIGIN_PR_LABELS[@]}"; do
 			-b "cherry-pick #$ORIGIN_PR_NUMBER $ORIGIN_PR_TITLE" \
 			-a $ASSIGNEES)
 
-		gh pr comment $ORIGIN_PR_NUMBER --body "🤖 cherry pick finished successfully 🎉!"
+		gh pr comment $ORIGIN_PR_NUMBER --body "🤖 #$TARGET_BRANCH cherry pick finished successfully 🎉!"
 		gh pr edit $ORIGIN_PR_NUMBER --add-label $AUTO_CHERRY_PICK_COMPLETED_LABEL || (
 			gh label create $AUTO_CHERRY_PICK_COMPLETED_LABEL -c "#0E8A16" -d "auto cherry pick completed"
 			gh pr edit $ORIGIN_PR_NUMBER --add-label $AUTO_CHERRY_PICK_COMPLETED_LABEL
@@ -67,6 +67,5 @@ for label in "${ORIGIN_PR_LABELS[@]}"; do
 			gh pr edit $AUTO_CREATED_PR_LINK --add-label "$AUTO_CHERRY_PICK_LABEL,$AUTO_CHERRY_PICK_VERSION_LABEL"
 		)
 		echo "::endgroup::"
-		break
 	fi
 done
