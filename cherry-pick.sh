@@ -21,7 +21,7 @@ AUTO_CHERRY_PICK_COMPLETED_LABEL="bot/auto-cherry-pick-completed"
 
 for label in "${ORIGIN_PR_LABELS[@]}"; do
 	if [[ "$label" == "$TRIGER_LABEL_PREFIX"* ]]; then
-		TARGET_BRANCH="release-$label"
+		TARGET_BRANCH="release-${label##*-}"
 		AUTO_CREATE_PR_BRANCH="$TARGET_BRANCH-auto-cherry-pick-$ORIGIN_PR_NUMBER"
 		AUTO_CHERRY_PICK_VERSION_LABEL="bot/auto-cherry-pick-for-$TARGET_BRANCH"
 
