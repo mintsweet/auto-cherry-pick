@@ -54,7 +54,7 @@ for label in ${ORIGIN_PR_LABELS[@]}; do
 			-b "cherry-pick #$ORIGIN_PR_NUMBER $ORIGIN_PR_TITLE" \
 			-a $ASSIGNEES)
 
-		gh pr comment $ORIGIN_PR_NUMBER --body "🤖 #$TARGET_BRANCH cherry pick finished successfully 🎉!"
+		gh pr comment $ORIGIN_PR_NUMBER --body "🤖 Target: #$TARGET_BRANCH cherry pick finished successfully 🎉!"
 		gh pr edit $ORIGIN_PR_NUMBER --add-label $AUTO_CHERRY_PICK_COMPLETED_LABEL || (
 			gh label create $AUTO_CHERRY_PICK_COMPLETED_LABEL -c "#0E8A16" -d "auto cherry pick completed"
 			gh pr edit $ORIGIN_PR_NUMBER --add-label $AUTO_CHERRY_PICK_COMPLETED_LABEL
